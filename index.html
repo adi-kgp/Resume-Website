@@ -1,207 +1,214 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aditya Sharma</title>
-    <link rel="stylesheet" type='text/css' media="screen" href="./styles/main.css">
-</head>
-<body>
-    <div id="container--main">
-        <section id="wrapper--hero" class="section--page">
-            <img id="profile-pic" src="./assets/images/profile_pic.jpg"/>
-            <div>
-                <h1 id="user-name">Aditya Sharma</h1>
-                <p id="bio">Data Scientist interested to work in the domain of business intelligence, project management and/or data science</p>
-                <p>👉 adi.nkgp@gmail.com&nbsp;&nbsp;&nbsp; 👉 Phone:&nbsp;&nbsp;+91-7892153174</p>
-            </div>
-        </section>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="style/style.css">
+
+    <style type="text/css" media="print">
+        .noprint {
+            display: none
+        }
         
-        <section class="section--page">
-            <div id="socials--list">
-                <a href="https://www.github.com/adi-kgp" target="_blank">Github</a>
-                <a href="https://twitter.com/AdiNkgp" target="_blank">Twitter</a>
-                <a href="https://www.linkedin.com/in/aditya-sharma-24a57323b/" target="_blank">Linkedin</a>
-                <a href="./assets/Aditya_Sharma_Resume.pdf" target="_blank">Download Resume</a>
+        .print {
+            display: block !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header class="el-header noprint">
+            <div class="icon-btns">
+                <i class="icon-list" @click="changeLeftMenu"></i>
+                <i class="icon-skip_previous" v-bind:class="{'disabled': currentPage == 1}" @click="changeCurrentPage('first')"></i>
+                <i class="icon-play_arrow prev-icon" v-bind:class="{'disabled': currentPage == 1}" @click="changeCurrentPage('prev')"></i>
+                <i class="icon-play_arrow" v-bind:class="{'disabled': currentPage == pageNum}" @click="changeCurrentPage('next')"></i>
+                <i class="icon-skip_next" v-bind:class="{'disabled': currentPage == pageNum}" @click="changeCurrentPage('last')"></i>
+                <select v-model="currentPage">
+                    <option v-for="page in pageNum" v-bind:value="page">page {{ page }}</option>
+                </select>
+                <i class="icon-zoom_in" v-bind:class="{'disabled': zoomNum == 2}" @click="modifyZoom('in')"></i>
+                <select v-model="zoomNum">
+                    <option value="0.5">50%</option>
+                    <option value="0.6">60%</option>
+                    <option value="0.7">70%</option>
+                    <option value="0.8">80%</option>
+                    <option value="0.9">90%</option>
+                    <option value="1.0" selected>100%</option>
+                    <option value="1.1">110%</option>
+                    <option value="1.2">120%</option>
+                    <option value="1.3">130%</option>
+                    <option value="1.4">140%</option>
+                    <option value="1.5">150%</option>
+                    <option value="1.6">160%</option>
+                    <option value="1.7">170%</option>
+                    <option value="1.8">180%</option>
+                    <option value="1.9">190%</option>
+                    <option value="2.0">200%</option>
+                </select>
+                <i class="icon-zoom_out" v-bind:class="{'disabled': zoomNum == 0.5}" @click="modifyZoom('out')"></i>
+                <i class="icon-format_align_left" @click="textAlign = 'left'"></i>
+                <i class="icon-format_align_center" @click="textAlign = 'center'"></i>
+                <i class="icon-format_align_right" @click="textAlign = 'right'"></i>
+                <i class="icon-print" @click="window.print()"></i>
             </div>
-        </section>
+        </header>
 
-        <section class="section--page">
-            <h2>Skills and Qualifications</h2>
-                <ul id="qualifications--list">
-                    <li>✔️ I have total 4 years of Professional Work Experience. 3 years of Experience in the domain of Data Science, Mathematical Modeling and Business Intelligence and 1 year Experience in Project Management.</li>
-                    <li>✔️ Hands-on knowledge of basic and advanced functions in PowerBI, Tableau, Python, Pandas, PySpark and SQL.</li>
-                    <li>✔️ Efficient in doing root cause analysis and carrying out various statistical tests like Chi-Square test, Student's t-test, Tajima's D and Fisher's Exact test.</li>
-                    <li>✔️ Co-published a research paper in the field of Bayesian Mathematical Modelling in an International Journal.</li>
-                    <li>✔️ I have 12+ certificates from Coursera and LinkedIn Learning in Business Intelligence, Data Science and Machine Learning.</li>
-                </ul>
-        </section>
-
-        <section class="section--page">
-            <h2>Tech Stack</h2>
-            <div id="wrapper--techstack__items">
-                <div class="card--techstack">
-                    <span>Python, PySpark, R</span>
-                </div>
-                <div class="card--techstack">
-                    <span>MySQL, PostGreSQL, T-SQL</span>
-                </div>
-                <div class="card--techstack">
-                    <span>PowerBI, Tableau</span>
-                </div>
-                <div class="card--techstack">
-                    <span>HTML, CSS, Javascript</span>
-                </div>
-                <div class="card--techstack">
-                    <span>MS Excel, PowerPoint</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="work-history-wrapper" class="section--page">
-            <h2>Work History</h2>
-            <div class="line-break"></div>
-
-            <div class="card--work-history">
-                <strong>Associate Data Scientist | Sigmoid.com</strong>
-                <p>05/2021 - 02/2022</p>
-                <p>Bengaluru, India</p>
+        <aside class="noprint" width="240px" v-show="ifMenuShow">
+            <nav class="tabNav">
                 <ul>
-                    <li>I worked on the creation of intermediate tables and views as datasets for further
-                        downstream analysis while working with a client in Health sector, and dashboard
-                        generation on PowerBI while working with a client in Life Insurance domain.</li>
-                    <li>I have a good hands-on experience working with SQL (Amazon Redshift, MySQL,
-                        MS-SQL Server, PostgreSQL), Python and PySpark programming.</li>
-                    <li>Expert knowledge of Front End Dashboard Generation using Tableau and PowerBI
-                        (Power BI Desktop, Power Query Editor, M language, Connecting with different data
-                        sources etc).</li>
+                    <li v-bind:class="{ 'curr': currentNav == 0 }" @click="currentNav = 0">Page</li>
+                    <li v-bind:class="{ 'curr': currentNav == 1 }" @click="currentNav = 1">Bookmark</li>
                 </ul>
-            </div>
-                
-            <div class="line-break"></div>
 
-            <div class="card--work-history">
-                <strong>Project Manager | Murfi Tech Solutions</strong>
-                <p>11/2018 - 11/2019</p>
-                <p>Karnal, India</p>
-                <ul>
-                    <li>I managed the entire operations for the Property House Tax Survey conducted in the
-                        state of Haryana. For the collection and maintenance of house tax, municipal
-                        corporations decided to carry out survey using latest technologies involving drones,
-                        satellite images and an android application.</li>
-                    <li>I managed more than 300 surveyors and 10 back panelists deployed for conducting
-                        app based survey in various cities across Haryana state. Streamlined the entire
-                        survey workflow by coordinating with the developer team for app updates and
-                        reports for monitoring the back panel team performance.</li>
+                <div class="clear"></div>
+            </nav>
+
+            <div class="tab-conent scrollbar" v-bind:style="{ height: asideHeight + 'px' }">
+
+            <section v-show="currentNav == 0">
+                <ul class="page-menu">
+                    <li v-for="page in pageNum" v-bind:class="{ 'curr': currentPage == page }" @click="changePage(page)"><i class="icon-file-text2"></i> page {{ page }}</li>
                 </ul>
-            </div>
+            </section>
 
-            <div class="line-break"></div>
-            
-            <div class="card--work-history">
-                <strong>Business Analyst | Moksha Productions</strong>
-                <p>08/2015 - 07/2016</p>
-                <p>Delhi, India</p>
-                <ul>
-                    <li>I worked on improving the overall business performance of a relatively new
-                        company. My role included cost optimization, process improvement in work flow,
-                        forecasting and capacity planning, TAT optimization and KPI management.</li>
-                    <li>I extensively used SQL and Excel to extract insights from historical data. I
-                        performed ARIMA time series modeling for sales prediction. I used new performance
-                        metrics for a more accurate analysis of individual teams' productivity and quality of
-                        work.</li>
+            <section v-show="currentNav == 1">
+                <ul class="page-menu">
+                    <li v-for="page in pageNum" v-bind:class="{ 'curr': currentPage == page }" @click="changePage(page)"><i class="icon-turned_in_not"></i> Bookmark {{ page }}</li>
                 </ul>
-            </div>
+            </section>
+        </div>
 
-            <div class="line-break"></div>
-            
-            <div class="card--work-history">
-                <strong>Research Associate | Max Plank Institute of Molecular Plant Physiology</strong>
-                <p>06/2014 - 05/2015</p>
-                <p>Potsdam, Germany</p>
-                <ul>
-                    <li>I worked on finding variation within a local Arabidopsis population cluster using
-                        genomics, phenomics and metabolomics.</li>
-                    <li>I analyzed rad sequenced Illumina raw reads using pipelines like Shore, CLC
-                        Genomics, GATK, Sam tools.</li>
-                    <li>Test statistics like Fischer's test, fixation index, Tajima's D were calculated to check
-                        the differences in the estimates of allele frequencies among the plant populations.</li>
-                </ul>
-            </div>        
-        </section>
+        </aside>
+        <div class="main scrollbar noprint"  v-bind:style="{ height: mainHeight + 'px' }" v-bind:class="{ 'mainLeftM': ifMenuShow, 'aleft': textAlign === 'left','acenter': textAlign === 'center','aright': textAlign === 'right'}">
+            <div class="conent" v-html="pageContent" v-bind:style="zoomStyle"></div>
 
-        <section class="section--page">
-            <h2>Projects and Accomplishments</h2>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/GR5SVYSWZ5RU" target="blank_"><span>🏆 </span> Couresera: Programming for Everybody (Getting Started with Python)</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/PK4LXG357ATT" target="_blank"><span>🏆 </span> Couresera: Python Data Structures</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/39Z5KVS78SX6" target="_blank"><span>🏆 </span> Coursera: Using Databases with Python</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/N7444AP4R3VY" target="blank_"><span>🏆 </span> Couresera: SQL for Data Science</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/C7GJMDCKTDSL" target="blank_"><span>🏆 </span> Couresera: Inferential Statistical Analysis with Python</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/4C5MXLL9UQZP" target="blank_"><span>🏆 </span> Couresera: Fitting Statistical Models to Data with Python</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/2W8RM9KRWE9E" target="_blank"><span>🏆 </span> Couresera: Data Visualization and Communication with Tableau</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/7JW5KWY2SURH" target="_blank"><span>🏆 </span> Coursera: Machine Learning Foundations: A case study approach</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/5H25ZFQ8GPTJ" target="_blank"><span>🏆 </span> Couresera: Machine Learning: Regression</a>
-            </div>
-            <div class="card--project">
-                <a href="https://www.coursera.org/account/accomplishments/verify/ZBBC63T9EPK8" target="_blank"><span>🏆 </span> Couresera: Machine Learning: Classification</a>
-            </div>
-        </section>
+            <div class="clear"></div>
+        </div>
 
-        <section class="section--page">
-            <h2>Research Publications</h2>
-            <div class="card--project">
-                <a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank"><span>🏆 </span> Development of a Time-To-Detect Growth Model for heat treated Bacillus cereus pores</a>
-                <p>Elsevier: International Journal of Food Microbiology</p>
-            </div>
-        </section>
-
-        <section id="education-history-wrapper" class="section--page">
-            <h2>Education History</h2>
-            <div class="line-break"></div>
-
-            <div class="card--education-history">
-                <strong>Integrated Dual Degree (B.Tech + M.Tech)</strong>
-                <p><a href="www.iitkgp.ac.in" target="_blank">Indian Institute of Technology Kharagpur</a></p>
-                <p>2009 - 2014</p>
-                <p>CGPA: 7.72/10</p>
-            </div>
-
-            <div class="line-break"></div>
-            
-            <div class="card--education-history">
-                <strong>Higher Secondary Certificate, Maharashtra Board</strong>
-                <p><a href="www.cpberar.co.in" target="_blank">C.P and Berar High School and Junior College</a></p>
-                <p>2007 - 2009</p>
-                <p>Percentage: 82.33 %</p>
-            </div>
-
-            <div class="line-break"></div>
-            
-            <div class="card--education-history">
-                <strong>Secondary Certificate, CBSE Board</strong>
-                <p><a href="www.bjmcarmelacademy.edu.in" target="_blank">B.J.M Carmel Academy</a></p>
-                <p>till 2007</p>
-                <p>Percentage: 93.2 %</p>
-            </div>
-        </section>
+        <!--专门只为打印的内容-->
+        <div class="conent print" style="display:none" v-html="pageContent"></div>
     </div>
 </body>
+<!-- 先引入 Vue -->
+<script src="js/vue.min.js"></script>
+<script>
+
+var app = new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                // visible: false,
+                isCollapse: false,
+                currentNav: 0,
+                activeName2: 'first',
+                pageNum: 1, 
+                currentPage: 1,
+                pageContent: '',
+                asideHeight: 300,
+                mainHeight: 300,
+                ifMenuShow: true,
+                zoomNum: '1.0',
+                textAlign: 'left',
+                zoomStyle: {},
+                pageDatas: ['<div style="position:absolute;top:0.000000px;left:0.000000px"><nobr><img height="1056.000000" width="816.000000" src ="bgimg/bg00001.jpg"/></nobr></div><p><span style="font-family:MS Serif;font-size:27.997501px;font-weight:bold;color:#000000;"><span style="position:absolute;top:33.214111px;left:37.781250px"><nobr>Aditya Sharma </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:18.480001px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:84.399010px;left:37.781250px"><nobr>Associate Data Scientist </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:131.454025px;left:63.531242px"><nobr>Hyderabad, India </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:160.454025px;left:63.531242px"><nobr><a href="mailto:john.frost.82.7.72@gmail.com">john.frost.82.7.72@gmail.com </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:189.454025px;left:63.531242px"><nobr><a href="tel:+91-9356581605" target="_blank">+91-9356581605 </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:218.454025px;left:63.531242px"><nobr><a href="https://github.com/adi-kgp" target="_blank">https://github.com/adi-kgp </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:247.454025px;left:63.531242px"><nobr>04 Aug 1991 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:276.454010px;left:63.531242px"><nobr>India </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:305.454010px;left:63.531242px"><nobr>Single </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:334.454010px;left:63.531242px"><nobr>Male </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:363.454010px;left:63.531242px"><nobr><a href="https://linkedin.com/in/aditya-sharma-274598336" target="_blank">www.linkedin.com/in/aditya-sharma-a75308337 </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.997499px;font-weight:bold;color:#000000;"><span style="position:absolute;top:409.994141px;left:67.234360px"><nobr>PROFILE SUMMARY </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:447.454010px;left:50.375000px"><nobr>I have total 8 months of Professional Work Experience in the domain of Data Science and Political Consulting. </nobr></span><span style="position:absolute;top:476.453979px;left:50.375000px"><nobr>Hands-on knowledge of basic and advanced functions in PowerBI, Tableau, Python, Pandas, PySpark and SQL. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:504.453979px;left:50.375000px"><nobr>I have 8+ certificates from Coursera and LinkedIn Learning in Business Intelligence, Data Science and Machine </nobr></span><span style="position:absolute;top:524.453979px;left:50.375000px"><nobr>Learning. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:552.453979px;left:50.375000px"><nobr>For other experiences mentioned in this resume, I do not have experience letter from employer. </nobr></span><span style="position:absolute;top:597.994141px;left:67.234360px"><nobr>PROFESSIONAL EXPERIENCE </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:636.376038px;left:37.781250px"><nobr><a href="https://www.indianpac.com/" target="_blank">Campaign </a><a href="https://www.indianpac.com/" target="_blank">Operations </a><a href="https://www.indianpac.com/" target="_blank">Associate </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:658.376038px;left:37.781250px"><nobr><a href="https://www.indianpac.com/" target="_blank">Indian </a><a href="https://www.indianpac.com/" target="_blank">Political </a><a href="https://www.indianpac.com/" target="_blank">Action </a><a href="https://www.indianpac.com/" target="_blank">Committee </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:0.750000px;font-style:normal;font-weight:normal;color:#FFFFFF;"><span style="position:absolute;top:694.961060px;left:61.562500px"><nobr>• </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:681.453979px;left:64.964493px"><nobr>Contributed in designing Electoral Campaigns for the present ruling political party </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:701.453979px;left:61.562500px"><nobr>in West Bengal (AITC) to maximize their win in General Elections 2024. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:734.453979px;left:61.562500px"><nobr>Analyzed and prepared presentation for Jharkhand government to convince them to </nobr></span><span style="position:absolute;top:754.453979px;left:61.562500px"><nobr>partner with the company which has a clear intention to help Jharkhand </nobr></span><span style="position:absolute;top:774.453979px;left:61.562500px"><nobr>government (JMM) win the upcoming elections in 2024. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:811.375977px;left:37.781250px"><nobr><a href="https://www.sigmoid.com/" target="_blank">Associate </a><a href="https://www.sigmoid.com/" target="_blank">Data </a><a href="https://www.sigmoid.com/" target="_blank">Scientist </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:833.375977px;left:37.781250px"><nobr><a href="https://www.sigmoid.com/" target="_blank">Sigmoid </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:856.453979px;left:61.562500px"><nobr>I worked on the creation of intermediate tables and views as datasets for further </nobr></span><span style="position:absolute;top:876.453979px;left:61.562500px"><nobr>downstream analysis while working with a client in Health sector, and dashboard </nobr></span><span style="position:absolute;top:896.453979px;left:61.562500px"><nobr>generation on PowerBI while working with a client in Life Insurance domain. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:928.453979px;left:61.562500px"><nobr>I have a good hands-on experience working with SQL (Amazon Redshift, MySQL, </nobr></span><span style="position:absolute;top:948.453979px;left:61.562500px"><nobr>MS-SQL Server, PostgreSQL), Python and PySpark programming. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:636.453918px;left:650.125000px"><nobr>Nov 2023 – Feb 2024 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:658.453918px;left:692.203125px"><nobr>Kolkata, India </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:811.453979px;left:648.687500px"><nobr>May 2021 – Feb 2022 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:833.453979px;left:675.031250px"><nobr>Bengaluru, India </nobr></span></span></p>','<div style="position:absolute;top:0.000000px;left:0.000000px"><nobr><img height="1056.000000" width="816.000000" src ="bgimg/bg00002.jpg"/></nobr></div><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:37.454021px;left:61.562500px"><nobr>Expert knowledge of Front End Dashboard Generation using Tableau and PowerBI </nobr></span><span style="position:absolute;top:57.454021px;left:61.562500px"><nobr>(Power BI Desktop, Power Query Editor, M language, Connecting with different data </nobr></span><span style="position:absolute;top:77.454018px;left:61.562500px"><nobr>sources etc.). </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:114.375977px;left:37.781250px"><nobr>Project Manager </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:136.375977px;left:37.781250px"><nobr>Murphy Tech Solutions </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:159.454025px;left:61.562500px"><nobr>I managed the entire operations for the Property House Tax Survey conducted in the </nobr></span><span style="position:absolute;top:179.454025px;left:61.562500px"><nobr>state of Haryana. This project is funded by Directorate of Urban Local Bodies (dULB) </nobr></span><span style="position:absolute;top:199.454025px;left:61.562500px"><nobr>Panchkula. For the collection and maintenance of house tax, municipal corporations </nobr></span><span style="position:absolute;top:219.454025px;left:61.562500px"><nobr>decided to carry out survey using latest technologies involving drones, satellite </nobr></span><span style="position:absolute;top:239.454025px;left:61.562500px"><nobr>images and an android application. The survey forms are first filled out by surveyors </nobr></span><span style="position:absolute;top:259.454010px;left:61.562500px"><nobr>from house owners. The data is then analyzed by the back panel team and then </nobr></span><span style="position:absolute;top:279.454010px;left:61.562500px"><nobr>subsequently submitted to dULB servers. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:311.454010px;left:61.562500px"><nobr>I managed more than 300 surveyors and 10 back panelists deployed for conducting </nobr></span><span style="position:absolute;top:331.454010px;left:61.562500px"><nobr>app based survey in various cities across Haryana state. Streamlined the entire </nobr></span><span style="position:absolute;top:351.454010px;left:61.562500px"><nobr>survey workflow by coordinating with the developer team for app updates, creating </nobr></span><span style="position:absolute;top:371.454010px;left:61.562500px"><nobr>new compensation rules for ensuring high productivity, and reports for monitoring </nobr></span><span style="position:absolute;top:391.454010px;left:61.562500px"><nobr>the back panel team performance (for error reduction). </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:428.376038px;left:37.781250px"><nobr><a href="https://www.moksha.in/design-studio-amazon-flipkart-2/" target="_blank">Business </a><a href="https://www.moksha.in/design-studio-amazon-flipkart-2/" target="_blank">Analyst </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:450.376038px;left:37.781250px"><nobr><a href="https://www.moksha.in/design-studio-amazon-flipkart-2/" target="_blank">Moksha </a><a href="https://www.moksha.in/design-studio-amazon-flipkart-2/" target="_blank">Productions </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:473.453979px;left:61.562500px"><nobr>I worked on improving the overall business performance of a relatively new </nobr></span><span style="position:absolute;top:493.453979px;left:61.562500px"><nobr>company. My role included cost optimization, process improvement in work flow, </nobr></span><span style="position:absolute;top:513.453979px;left:61.562500px"><nobr>forecasting and capacity planning, TAT optimization and KPI management. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:546.453979px;left:61.562500px"><nobr>I extensively used SQL and Excel to extract insights from historical data. I </nobr></span><span style="position:absolute;top:566.453979px;left:61.562500px"><nobr>performed ARIMA time series modeling for sales prediction. I used new performance </nobr></span><span style="position:absolute;top:586.453979px;left:61.562500px"><nobr>metrics for a more accurate analysis of individual teams\' productivity and quality of </nobr></span><span style="position:absolute;top:606.453979px;left:61.562500px"><nobr>work. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:643.376038px;left:37.781250px"><nobr><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">Reseach </a><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">Associate </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:665.376038px;left:37.781250px"><nobr><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">Max </a><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">Plank </a><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">Institute </a><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">of </a><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">Molecular </a><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">Plant </a><a href="https://www.mpimp-golm.mpg.de/2168/en" target="_blank">Physiology </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:688.453979px;left:61.562500px"><nobr>I worked on finding variation within a local Arabidopsis population cluster using </nobr></span><span style="position:absolute;top:708.453979px;left:61.562500px"><nobr>genomics, phenomics and metabolomics. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:740.453979px;left:61.562500px"><nobr>I analyzed rad sequenced Illumina raw reads using pipelines like Shore, CLC </nobr></span><span style="position:absolute;top:760.453979px;left:61.562500px"><nobr>Genomics, GATK, Sam tools. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:792.453979px;left:61.562500px"><nobr>T est statistics like Fischer\'s test, fixation index, Tajima\'s D were calculated to check </nobr></span><span style="position:absolute;top:812.453979px;left:61.562500px"><nobr>the differences in the estimates of allele frequencies among the plant populations. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.997499px;font-weight:bold;color:#000000;"><span style="position:absolute;top:857.994141px;left:67.234360px"><nobr>SKILLS </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:896.375977px;left:37.781250px"><nobr>Python </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:italic;color:#000000;"><span style="position:absolute;top:917.375977px;left:50.578117px"><nobr>Numpy, Pandas, Scipy, Sklearn </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:959.375977px;left:37.781250px"><nobr>PySpark </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:1001.375977px;left:37.781250px"><nobr>Tableau </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:896.375977px;left:422.000000px"><nobr>SQL </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:italic;color:#000000;"><span style="position:absolute;top:917.375977px;left:434.796936px"><nobr>MySQL, T-SQL, Amazon Redshift, PostgresSQL </nobr></span><span style="position:absolute;top:959.375977px;left:422.000000px"><nobr>Power BI </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:1001.375977px;left:422.000000px"><nobr>MS Excel </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:114.454018px;left:647.578064px"><nobr>Nov 2018 – Nov 2019 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:136.454025px;left:698.000000px"><nobr>Karnal, India </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:428.454010px;left:655.265564px"><nobr>Aug 2015 – Jul 2016 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:450.454010px;left:674.624939px"><nobr>New Delhi, India </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:643.453918px;left:649.843628px"><nobr>Jun 2014 – May 2015 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:665.453918px;left:661.109253px"><nobr>Potsdam, Germany </nobr></span></span></p>','<div style="position:absolute;top:0.000000px;left:0.000000px"><nobr><img height="1056.000000" width="816.000000" src ="bgimg/bg00003.jpg"/></nobr></div><p><span style="font-family:MS Serif;font-size:12.997499px;font-weight:bold;color:#000000;"><span style="position:absolute;top:35.994141px;left:67.234360px"><nobr>SELF TAUGHT COURSES </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:77.375977px;left:37.781250px"><nobr><a href="https://www.coursera.org/account/accomplishments/certificate/GR5SVYSWZ5RU" target="_blank">Programming </a><a href="https://www.coursera.org/account/accomplishments/certificate/GR5SVYSWZ5RU" target="_blank">for </a><a href="https://www.coursera.org/account/accomplishments/certificate/GR5SVYSWZ5RU" target="_blank">Everybody </a><a href="https://www.coursera.org/account/accomplishments/certificate/GR5SVYSWZ5RU" target="_blank">(Getting </a><a href="https://www.coursera.org/account/accomplishments/certificate/GR5SVYSWZ5RU" target="_blank">Started </a><a href="https://www.coursera.org/account/accomplishments/certificate/GR5SVYSWZ5RU" target="_blank">with </a><a href="https://www.coursera.org/account/accomplishments/certificate/GR5SVYSWZ5RU" target="_blank">Python) </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:106.375977px;left:37.781250px"><nobr><a href="https://www.coursera.org/account/accomplishments/certificate/39Z5KVS78SX6" target="_blank">Using </a><a href="https://www.coursera.org/account/accomplishments/certificate/39Z5KVS78SX6" target="_blank">Databases </a><a href="https://www.coursera.org/account/accomplishments/certificate/39Z5KVS78SX6" target="_blank">with </a><a href="https://www.coursera.org/account/accomplishments/certificate/39Z5KVS78SX6" target="_blank">Python </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:135.375977px;left:37.781250px"><nobr><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Inferential </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Statistical </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Analysis </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">with </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Python </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:164.375977px;left:37.781250px"><nobr><a href="https://www.coursera.org/account/accomplishments/certificate/2W8RM9KRWE9E" target="_blank">Data </a><a href="https://www.coursera.org/account/accomplishments/certificate/2W8RM9KRWE9E" target="_blank">Visualization </a><a href="https://www.coursera.org/account/accomplishments/certificate/2W8RM9KRWE9E" target="_blank">and </a><a href="https://www.coursera.org/account/accomplishments/certificate/2W8RM9KRWE9E" target="_blank">Communication </a><a href="https://www.coursera.org/account/accomplishments/certificate/2W8RM9KRWE9E" target="_blank">with </a><a href="https://www.coursera.org/account/accomplishments/certificate/2W8RM9KRWE9E" target="_blank">Tableau </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:193.375977px;left:37.781250px"><nobr><a href="https://www.coursera.org/account/accomplishments/certificate/7JW5KWY2SURH" target="_blank">Machine </a><a href="https://www.coursera.org/account/accomplishments/certificate/7JW5KWY2SURH" target="_blank">Learning </a><a href="https://www.coursera.org/account/accomplishments/certificate/7JW5KWY2SURH" target="_blank">Foundations: </a><a href="https://www.coursera.org/account/accomplishments/certificate/7JW5KWY2SURH" target="_blank">A </a><a href="https://www.coursera.org/account/accomplishments/certificate/7JW5KWY2SURH" target="_blank">Case </a><a href="https://www.coursera.org/account/accomplishments/certificate/7JW5KWY2SURH" target="_blank">Study </a><a href="https://www.coursera.org/account/accomplishments/certificate/7JW5KWY2SURH" target="_blank">Approach </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:222.375977px;left:37.781250px"><nobr><a href="https://www.coursera.org/account/accomplishments/certificate/ZBBC63T9EPK8" target="_blank">Machine </a><a href="https://www.coursera.org/account/accomplishments/certificate/ZBBC63T9EPK8" target="_blank">Learning: </a><a href="https://www.coursera.org/account/accomplishments/certificate/ZBBC63T9EPK8" target="_blank">Classification </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:251.375977px;left:37.781250px"><nobr><a href="https://www.udemy.com/certificate/UC-0a25bfdf-2c9b-40d0-a3b4-00a0c5805e5f/" target="_blank">Algorithmic </a><a href="https://www.udemy.com/certificate/UC-0a25bfdf-2c9b-40d0-a3b4-00a0c5805e5f/" target="_blank">Trading </a><a href="https://www.udemy.com/certificate/UC-0a25bfdf-2c9b-40d0-a3b4-00a0c5805e5f/" target="_blank">and </a><a href="https://www.udemy.com/certificate/UC-0a25bfdf-2c9b-40d0-a3b4-00a0c5805e5f/" target="_blank">Quantitative </a><a href="https://www.udemy.com/certificate/UC-0a25bfdf-2c9b-40d0-a3b4-00a0c5805e5f/" target="_blank">Analysis </a><a href="https://www.udemy.com/certificate/UC-0a25bfdf-2c9b-40d0-a3b4-00a0c5805e5f/" target="_blank">Using </a><a href="https://www.udemy.com/certificate/UC-0a25bfdf-2c9b-40d0-a3b4-00a0c5805e5f/" target="_blank">Python </a></nobr></span><span style="position:absolute;top:301.994141px;left:67.234360px"><nobr>PUBLICATIONS </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:340.375977px;left:37.781250px"><nobr><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Development </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">of </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">a </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Time-To-Detect </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Growth </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Model </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">for </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">head </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">treated </a></nobr></span><span style="position:absolute;top:362.375977px;left:37.781250px"><nobr><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Bacillus </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">cereus </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">pores </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:384.376038px;left:37.781250px"><nobr><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Elsevier: </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">International </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Journal </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">of </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Food </a><a href="https://pubmed.ncbi.nlm.nih.gov/23796655/" target="_blank">Microbiology </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:407.454010px;left:48.968758px"><nobr>The paper describes a goodness of fit model with the dependent variable being lag </nobr></span><span style="position:absolute;top:427.454010px;left:48.968758px"><nobr>time of Bacillus cereus spores. These spores are formed as a protection against heat </nobr></span><span style="position:absolute;top:447.454010px;left:48.968758px"><nobr>treatment before packaging in refrigerated food products of extended durability </nobr></span><span style="position:absolute;top:467.453979px;left:48.968758px"><nobr>(REPFED). With five variables and lag spore time as the variable to be predicted, a </nobr></span><span style="position:absolute;top:487.453979px;left:48.968758px"><nobr>regression model was developed. The estimates of ten parameters was performed </nobr></span><span style="position:absolute;top:507.453979px;left:48.968758px"><nobr>using Gibbs sampling , one type of mcmc algorithm. Finally a threshold value of 2 </nobr></span><span style="position:absolute;top:527.453979px;left:48.968758px"><nobr>months or below was taken as the time for the spores to spoil the product. The result </nobr></span><span style="position:absolute;top:547.453979px;left:48.968758px"><nobr>of this study was integrated into food safety rules of food companies in France. </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.997499px;font-weight:bold;color:#000000;"><span style="position:absolute;top:592.994141px;left:67.234360px"><nobr>EDUCATION </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:631.376038px;left:37.781250px"><nobr><a href="http://www.iitkgp.ac.in/" target="_blank">Integrated </a><a href="http://www.iitkgp.ac.in/" target="_blank">Dual </a><a href="http://www.iitkgp.ac.in/" target="_blank">Degree </a><a href="http://www.iitkgp.ac.in/" target="_blank">(B.Tech+M.Tech) </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:653.376038px;left:37.781250px"><nobr><a href="http://www.iitkgp.ac.in/" target="_blank">Indian </a><a href="http://www.iitkgp.ac.in/" target="_blank">Institute </a><a href="http://www.iitkgp.ac.in/" target="_blank">Of </a><a href="http://www.iitkgp.ac.in/" target="_blank">Technology </a><a href="http://www.iitkgp.ac.in/" target="_blank">Kharagpur </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:676.453979px;left:48.968758px"><nobr>Grade: 7.72 / 10 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:713.375977px;left:37.781250px"><nobr><a href="http://cpberar.co.in/" target="_blank">Higher </a><a href="http://cpberar.co.in/" target="_blank">Secondary </a><a href="http://cpberar.co.in/" target="_blank">Certificate, </a><a href="http://cpberar.co.in/" target="_blank">Maharashtra </a><a href="http://cpberar.co.in/" target="_blank">Board </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:735.375977px;left:37.781250px"><nobr><a href="http://cpberar.co.in/" target="_blank">C.P. </a><a href="http://cpberar.co.in/" target="_blank">and </a><a href="http://cpberar.co.in/" target="_blank">Berar </a><a href="http://cpberar.co.in/" target="_blank">Hish </a><a href="http://cpberar.co.in/" target="_blank">School </a><a href="http://cpberar.co.in/" target="_blank">and </a><a href="http://cpberar.co.in/" target="_blank">Junior </a><a href="http://cpberar.co.in/" target="_blank">College </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:758.453979px;left:48.968758px"><nobr>Grade: 82.3 % </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-weight:bold;color:#000000;"><span style="position:absolute;top:795.375977px;left:37.781250px"><nobr><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Secondary </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Certificate, </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Central </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Board </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">of </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Secondary </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Education </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:12.000000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:817.375977px;left:37.781250px"><nobr><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Bishop </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Januarius </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Memorial </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Carmel </a><a href="https://bjmcarmelacademy.edu.in/" target="_blank">Academy </a></nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:840.453979px;left:48.968758px"><nobr>Grade: 93.2 % </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:77.375977px;left:486.093689px"><nobr>| <a href="https://www.coursera.org/account/accomplishments/certificate/PK4LXG357ATT" target="_blank">Python </a><a href="https://www.coursera.org/account/accomplishments/certificate/PK4LXG357ATT" target="_blank">Data </a><a href="https://www.coursera.org/account/accomplishments/certificate/PK4LXG357ATT" target="_blank">Structures </a>| </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:106.375977px;left:278.859344px"><nobr>| <a href="https://www.coursera.org/account/accomplishments/certificate/N7444AP4R3VY" target="_blank">SQL </a><a href="https://www.coursera.org/account/accomplishments/certificate/N7444AP4R3VY" target="_blank">for </a><a href="https://www.coursera.org/account/accomplishments/certificate/N7444AP4R3VY" target="_blank">Data </a><a href="https://www.coursera.org/account/accomplishments/certificate/N7444AP4R3VY" target="_blank">Science </a>| </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:135.375977px;left:377.078125px"><nobr>| <a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Fitting </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Statistical </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Models </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">to </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Data </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">with </a><a href="https://www.coursera.org/account/accomplishments/certificate/4C5MXLL9UQZP" target="_blank">Python </a>| </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:165.454025px;left:447.671875px"><nobr>| </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:193.375977px;left:466.796936px"><nobr>| <a href="https://www.coursera.org/account/accomplishments/certificate/5H25ZFQ8GPTJ" target="_blank">Machine </a><a href="https://www.coursera.org/account/accomplishments/certificate/5H25ZFQ8GPTJ" target="_blank">Learning: </a><a href="https://www.coursera.org/account/accomplishments/certificate/5H25ZFQ8GPTJ" target="_blank">Regression </a>| </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:222.375977px;left:305.828064px"><nobr>| <a href="https://www.coursera.org/account/accomplishments/verify/M54K68FF6N6J" target="_blank">Crash </a><a href="https://www.coursera.org/account/accomplishments/verify/M54K68FF6N6J" target="_blank">Course </a><a href="https://www.coursera.org/account/accomplishments/verify/M54K68FF6N6J" target="_blank">on </a><a href="https://www.coursera.org/account/accomplishments/verify/M54K68FF6N6J" target="_blank">Python </a>| </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:340.454010px;left:704.031250px"><nobr>28 Apr 2013 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:631.453979px;left:704.046753px"><nobr>2009 – 2014 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:653.453979px;left:674.171753px"><nobr>Kharagpur, India </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:713.453979px;left:704.046753px"><nobr>2007 – 2009 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:735.453979px;left:693.625000px"><nobr>Nagpur, India </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:795.453979px;left:748.343628px"><nobr>2007 </nobr></span></span></p><p><span style="font-family:MS Serif;font-size:10.500000px;font-style:normal;font-weight:normal;color:#000000;"><span style="position:absolute;top:817.453979px;left:665.484497px"><nobr>Chandrapur, India </nobr></span></span></p>']
+            }
+        },
+        mounted: function() {
+            this.$nextTick(function() {
+                this.pageNum = this.pageDatas.length;
+                this.pageContent = this.pageDatas[0];
+
+                this.setLeftMenuHeight();
+            })
+        },
+        watch: {
+            'currentPage': function(newVal, oldValue) {
+                // console.log('newVal ' + newVal, 'oldValue ' + oldValue);
+                if (newVal) {
+                    this.pageContent = this.pageDatas[this.currentPage - 1];
+                }
+            },
+            'zoomNum': function(newVal, oldValue) {
+                if (newVal) {
+                    this.zoomStyle = {
+                        'transform': 'scale(' + newVal + ')',
+                        '-webkit-transform': 'scale(' + newVal + ')',
+                        '-ms-transform': 'scale(' + newVal + ')',
+                        '-moz-transform': 'scale(' + newVal + ')',
+                        '-o-transform': 'scale(' + newVal + ')'
+                    }
+                }
+            }
+        },
+        methods: {
+            
+            changeCurrentPage: function(methods) {
+                switch (methods) {
+                    case 'first':
+                        this.currentPage = 1;
+                        break;
+                    case 'prev':
+                        if (this.currentPage > 1) {
+                            this.currentPage -= 1;
+                        }
+                        break;
+                    case 'next':
+                        if (this.currentPage < this.pageNum) {
+                            this.currentPage += 1;
+                        }
+                        break;
+                    case 'last':
+                        this.currentPage = this.pageNum;
+                        break;
+                }
+            },
+
+            gotoPage: function(page) {
+                console.log(page);
+                this.currentPage = page;
+            },
+            modifyZoom: function(type) {
+                switch (type) {
+                    case 'in':
+                        if (this.zoomNum < 2) {
+                            // this.zoomNum = (this.zoomNum + 0.1).toFixed(1);
+                            this.zoomNum = (parseFloat(this.zoomNum) + 0.1).toFixed(1);
+                        }
+                        break;
+                    case 'out':
+                        if (this.zoomNum > 0.5) {
+                            this.zoomNum = (parseFloat(this.zoomNum) - 0.1).toFixed(1);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                console.log(this.zoomNum);
+            },
+            setLeftMenuHeight: function() {
+                // this.asideHeight = document.body.scrollHeight - 60;
+                this.mainHeight = document.documentElement.clientHeight - 60 - 20;
+                // 60为头部导航高度， 46为menu高度， 40为上下padding
+                this.asideHeight = this.mainHeight - 20 - 46;
+            },
+            changePage: function(page) {
+                this.currentPage = page;
+                // this.pageContent = this.pageDatas[page - 1];
+            },
+            changeLeftMenu: function() {
+                this.ifMenuShow = !this.ifMenuShow;
+            }
+        }
+    });
+
+function gotoPage(page) {
+    console.log(page);
+    app.gotoPage(page);
+}
+
+</script>
+
 </html>
